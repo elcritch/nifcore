@@ -42,7 +42,7 @@
 ## `createTokenBuf` to thread the same intern tables through many trees.
 
 import std / [assertions, hashes]
-import "../.." / nimony / src / lib / bitabs
+import ./private/bitabs
 export bitabs  # adapters touching pool.strings / tags need getOrIncl etc.
 
 type
