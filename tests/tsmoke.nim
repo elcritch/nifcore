@@ -47,4 +47,19 @@ block tag_ids_are_enum_ordinals:
   var dc = d.buf.beginRead()
   check htmlTag(dc.cursorTagId), TagDiv       # cast trip
 
+proc makeBuffer(): TokenBuf =
+  result = createTokenBuf()
+  let tag = result.tags.registerTag("element")
+  result.buildTree tag:
+    result.addStrLit "a pooled string"
+
+block returned_buffer_keeps_its_pools:
+  var buffer = makeBuffer()
+  var moved = move(buffer)
+  var cursor = moved.beginRead()
+  check cursor.tags.tagName(cursor.cursorTagId), "element"
+  cursor.into:
+    check cursor.strVal(), "a pooled string"
+    cursor.inc()
+
 echo "smoke tests passed"

@@ -514,7 +514,7 @@ type
     tags*: TagPool                # tags (typically per-adapter)
 
 proc `=copy`(dest: var TokenBuf; src: TokenBuf) {.error.}
-proc `=wasMoved`(dest: var TokenBuf) {.inline.} =
+proc `=wasMoved`(dest: var TokenBuf) {.nodestroy, inline.} =
   dest.data = nil
   dest.len = 0
   dest.cap = 0
